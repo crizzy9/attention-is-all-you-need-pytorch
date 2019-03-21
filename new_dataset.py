@@ -5,6 +5,7 @@ import pretty_midi
 import os
 
 MAX_LEN = 37441
+TRUNCATED = 1600
 NOTES = 128
 PITCHES = 128
 TRUE_VOCAB_SIZE = NOTES * PITCHES
@@ -39,7 +40,8 @@ class MultiTrackPianoRollDataset(torch.utils.data.Dataset):
         self.src_vocab_size, self.tgt_vocab_size = VOCAB_SIZE, VOCAB_SIZE
                     
     def __len__(self):
-        return self.subset_len if self.subset_len else len(self.directories)
+        return 5000
+#         return self.subset_len if self.subset_len else len(self.directories)
 
     def __getitem__(self, idx):
         
@@ -54,17 +56,19 @@ class MultiTrackPianoRollDataset(torch.utils.data.Dataset):
         return sample
     
     
-def pad_tracks(tracks, pad_token=PAD_TOKEN, pad_to=None):
+def pad_tracks(tracks, pad_token=PAD_TOKEN, pad_to=TRUNCATED):
     new_tracks = []
     max_size = max([t.shape[0] for t in tracks])
     if pad_to:
-        assert pad_to >= max_size
         max_size = pad_to
     _, cols = tracks[0].shape
     
     for t in tracks:
         r, c = t.shape
         assert c == cols
+        if max_size < r:
+            new_tracks.append(t[:max_size])
+            continue
         pad = np.ones((max_size - r, cols)) * pad_token
         new_tracks.append(np.concatenate((t, pad), axis=0))
     return new_tracks
@@ -91,5 +95,5 @@ def test_transform(tracks, instrument=2):
     return sample, [START_TOKEN] + sample + [END_TOKEN]
     
 
-transform = lambda x: test_transform(track_to_tok(x))
+transform = lambda x: test_transform(pad_tracks(track_to_tok(x)))
 #     pad_tracks(track_to_tok(x), pad_to=MAX_LEN))

@@ -15,7 +15,7 @@ import transformer.Constants as Constants
 from dataset import TranslationDataset, paired_collate_fn
 from transformer.Models import Transformer
 from transformer.Optim import ScheduledOptim
-from new_dataset import MultiTrackPianoRollDataset, transform, PAD_TOKEN, START_TOKEN, END_TOKEN, MAX_LEN, VOCAB_SIZE
+from new_dataset import MultiTrackPianoRollDataset, transform, PAD_TOKEN, START_TOKEN, END_TOKEN, MAX_LEN, VOCAB_SIZE, TRUNCATED
 
 def cal_performance(pred, gold, smoothing=False):
     ''' Apply label smoothing if needed '''
@@ -146,7 +146,6 @@ def train(model, training_data, validation_data, optimizer, device, opt):
 
     valid_accus = []
     for epoch_i in range(opt.epoch):
-        torch.cuda.empty_cache()
         print('[ Epoch', epoch_i, ']')
 
         start = time.time()
@@ -197,7 +196,7 @@ def main():
 
     #parser.add_argument('-data', required=True)
 
-    parser.add_argument('-epoch', type=int, default=10)
+    parser.add_argument('-epoch', type=int, default=5)
     parser.add_argument('-batch_size', type=int, default=1)
 
     #parser.add_argument('-d_word_vec', type=int, default=512)
@@ -227,7 +226,7 @@ def main():
 
     #========= Loading Dataset =========#
 #     data = torch.load(opt.data)
-    opt.max_token_seq_len = VOCAB_SIZE
+    opt.max_token_seq_len = TRUNCATED + 2
 
     training_data, validation_data = prepare_dataloaders(opt)
 
