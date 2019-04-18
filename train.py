@@ -13,7 +13,8 @@ import torch.optim as optim
 import torch.utils.data
 import transformer.Constants as Constants
 from dataset import TranslationDataset, paired_collate_fn
-from transformer.Models import Transformer
+# from transformer.Models import Transformer
+from transformer.MultiTransformer import MultiTransformer
 from transformer.Optim import ScheduledOptim
 
 def cal_performance(pred, gold, smoothing=False):
@@ -66,8 +67,9 @@ def train_epoch(model, training_data, optimizer, device, smoothing):
             desc='  - (Training)   ', leave=False):
 
         # prepare data
+        # batch should be n_modules x batch_size x (sample size)
         src_seq, src_pos, tgt_seq, tgt_pos = map(lambda x: x.to(device), batch)
-        gold = tgt_seq[:, 1:]
+        gold = tgt_seq[:, :, 1:]
 
         # forward
         optimizer.zero_grad()
@@ -205,6 +207,7 @@ def main():
     parser.add_argument('-d_v', type=int, default=64)
 
     parser.add_argument('-n_head', type=int, default=8)
+    parser.add_argument('-n_modules', type=int, default=4)
     parser.add_argument('-n_layers', type=int, default=6)
     parser.add_argument('-n_warmup_steps', type=int, default=4000)
 
@@ -240,7 +243,22 @@ def main():
     print(opt)
 
     device = torch.device('cuda' if opt.cuda else 'cpu')
-    transformer = Transformer(
+    # transformer = Transformer(
+    #     opt.src_vocab_size,
+    #     opt.tgt_vocab_size,
+    #     opt.max_token_seq_len,
+    #     tgt_emb_prj_weight_sharing=opt.proj_share_weight,
+    #     emb_src_tgt_weight_sharing=opt.embs_share_weight,
+    #     d_k=opt.d_k,
+    #     d_v=opt.d_v,
+    #     d_model=opt.d_model,
+    #     d_word_vec=opt.d_word_vec,
+    #     d_inner=opt.d_inner_hid,
+    #     n_layers=opt.n_layers,
+    #     n_head=opt.n_head,
+    #     dropout=opt.dropout).to(device)
+
+    transformer = MultiTransformer(
         opt.src_vocab_size,
         opt.tgt_vocab_size,
         opt.max_token_seq_len,
@@ -251,9 +269,11 @@ def main():
         d_model=opt.d_model,
         d_word_vec=opt.d_word_vec,
         d_inner=opt.d_inner_hid,
+        n_modules=opt.n_modules,
         n_layers=opt.n_layers,
         n_head=opt.n_head,
         dropout=opt.dropout).to(device)
+
 
     optimizer = ScheduledOptim(
         optim.Adam(

@@ -1,0 +1,145 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/59c2a32/
+- Attention weight plot.	README.md	/^  - Attention weight plot.$/;"	s
+- coming soon.	README.md	/^- coming soon.$/;"	s
+0) Download the data.	README.md	/^### 0) Download the data.$/;"	S
+1) Preprocess the data.	README.md	/^### 1) Preprocess the data.$/;"	S
+2) Train the model	README.md	/^### 2) Train the model$/;"	S
+3) Test the model	README.md	/^### 3) Test the model$/;"	S
+Acknowledgement	README.md	/^# Acknowledgement$/;"	c
+Attention is all you need: A Pytorch Implementation	README.md	/^# Attention is all you need: A Pytorch Implementation$/;"	c
+BOS	transformer/Constants.py	/^BOS = 2$/;"	v
+BOS_WORD	transformer/Constants.py	/^BOS_WORD = '<s>'$/;"	v
+Beam	transformer/Beam.py	/^class Beam():$/;"	c
+Constants	preprocess.py	/^import transformer.Constants as Constants$/;"	I
+Constants	train.py	/^import transformer.Constants as Constants$/;"	I
+Constants	transformer/Beam.py	/^import transformer.Constants as Constants$/;"	I
+Constants	transformer/Models.py	/^import transformer.Constants as Constants$/;"	I
+Decoder	transformer/Models.py	/^class Decoder(nn.Module):$/;"	c
+DecoderLayer	transformer/Layers.py	/^class DecoderLayer(nn.Module):$/;"	c
+EOS	transformer/Constants.py	/^EOS = 3$/;"	v
+EOS_WORD	transformer/Constants.py	/^EOS_WORD = '<\/s>'$/;"	v
+Encoder	transformer/Models.py	/^class Encoder(nn.Module):$/;"	c
+EncoderLayer	transformer/Layers.py	/^class EncoderLayer(nn.Module):$/;"	c
+F	train.py	/^import torch.nn.functional as F$/;"	I
+F	transformer/SubLayers.py	/^import torch.nn.functional as F$/;"	I
+F	transformer/Translator.py	/^import torch.nn.functional as F$/;"	I
+MultiHeadAttention	transformer/SubLayers.py	/^class MultiHeadAttention(nn.Module):$/;"	c
+PAD	transformer/Constants.py	/^PAD = 0$/;"	v
+PAD_WORD	transformer/Constants.py	/^PAD_WORD = '<blank>'$/;"	v
+Performance	README.md	/^# Performance$/;"	c
+PositionwiseFeedForward	transformer/SubLayers.py	/^class PositionwiseFeedForward(nn.Module):$/;"	c
+Requirement	README.md	/^# Requirement$/;"	c
+ScaledDotProductAttention	transformer/Modules.py	/^class ScaledDotProductAttention(nn.Module):$/;"	c
+ScheduledOptim	transformer/Optim.py	/^class ScheduledOptim():$/;"	c
+Some useful tools:	README.md	/^## Some useful tools:$/;"	s
+TODO	README.md	/^# TODO$/;"	c
+Testing	README.md	/^## Testing $/;"	s
+Training	README.md	/^## Training$/;"	s
+Transformer	transformer/Models.py	/^class Transformer(nn.Module):$/;"	c
+TranslationDataset	dataset.py	/^class TranslationDataset(torch.utils.data.Dataset):$/;"	c
+Translator	transformer/Translator.py	/^class Translator(object):$/;"	c
+UNK	transformer/Constants.py	/^UNK = 1$/;"	v
+UNK_WORD	transformer/Constants.py	/^UNK_WORD = '<unk>'$/;"	v
+Usage	README.md	/^# Usage$/;"	c
+WMT'16 Multimodal Translation: Multi30k (de-en)	README.md	/^## WMT'16 Multimodal Translation: Multi30k (de-en)$/;"	s
+__all__	transformer/__init__.py	/^__all__ = [$/;"	v
+__author__	transformer/Layers.py	/^__author__ = "Yu-Hsiang Huang"$/;"	v
+__author__	transformer/Models.py	/^__author__ = "Yu-Hsiang Huang"$/;"	v
+__author__	transformer/Modules.py	/^__author__ = "Yu-Hsiang Huang"$/;"	v
+__author__	transformer/SubLayers.py	/^__author__ = "Yu-Hsiang Huang"$/;"	v
+__getitem__	dataset.py	/^    def __getitem__(self, idx):$/;"	m	class:TranslationDataset
+__init__	dataset.py	/^    def __init__($/;"	m	class:TranslationDataset
+__init__	transformer/Beam.py	/^    def __init__(self, size, device=False):$/;"	m	class:Beam
+__init__	transformer/Layers.py	/^    def __init__(self, d_model, d_inner, n_head, d_k, d_v, dropout=0.1):$/;"	m	class:DecoderLayer
+__init__	transformer/Layers.py	/^    def __init__(self, d_model, d_inner, n_head, d_k, d_v, dropout=0.1):$/;"	m	class:EncoderLayer
+__init__	transformer/Models.py	/^    def __init__($/;"	m	class:Decoder
+__init__	transformer/Models.py	/^    def __init__($/;"	m	class:Encoder
+__init__	transformer/Models.py	/^    def __init__($/;"	m	class:Transformer
+__init__	transformer/Modules.py	/^    def __init__(self, temperature, attn_dropout=0.1):$/;"	m	class:ScaledDotProductAttention
+__init__	transformer/Optim.py	/^    def __init__(self, optimizer, d_model, n_warmup_steps):$/;"	m	class:ScheduledOptim
+__init__	transformer/SubLayers.py	/^    def __init__(self, d_in, d_hid, dropout=0.1):$/;"	m	class:PositionwiseFeedForward
+__init__	transformer/SubLayers.py	/^    def __init__(self, n_head, d_model, d_k, d_v, dropout=0.1):$/;"	m	class:MultiHeadAttention
+__init__	transformer/Translator.py	/^    def __init__(self, opt):$/;"	m	class:Translator
+__len__	dataset.py	/^    def __len__(self):$/;"	m	class:TranslationDataset
+_get_lr_scale	transformer/Optim.py	/^    def _get_lr_scale(self):$/;"	m	class:ScheduledOptim
+_update_learning_rate	transformer/Optim.py	/^    def _update_learning_rate(self):$/;"	m	class:ScheduledOptim
+```	README.md	/^```$/;"	s
+add_to_ref	multi-bleu.perl	/^sub add_to_ref {$/;"	s
+advance	transformer/Beam.py	/^    def advance(self, word_prob):$/;"	m	class:Beam
+beam_decode_step	transformer/Translator.py	/^        def beam_decode_step($/;"	f	member:Translator.translate_batch	file:
+build_vocab_idx	preprocess.py	/^def build_vocab_idx(word_insts, min_word_count):$/;"	f
+cal_angle	transformer/Models.py	/^    def cal_angle(position, hid_idx):$/;"	f	function:get_sinusoid_encoding_table	file:
+cal_loss	train.py	/^def cal_loss(pred, gold, smoothing):$/;"	f
+cal_performance	train.py	/^def cal_performance(pred, gold, smoothing=False):$/;"	f
+collate_active_info	transformer/Translator.py	/^        def collate_active_info($/;"	f	member:Translator.translate_batch	file:
+collate_fn	dataset.py	/^def collate_fn(insts):$/;"	f
+collect_active_inst_idx_list	transformer/Translator.py	/^            def collect_active_inst_idx_list(inst_beams, word_prob, inst_idx_to_position_map):$/;"	f	function:Translator.translate_batch.beam_decode_step	file:
+collect_active_part	transformer/Translator.py	/^        def collect_active_part(beamed_tensor, curr_active_inst_idx, n_prev_active_inst, n_bm):$/;"	f	member:Translator.translate_batch	file:
+collect_hypothesis_and_scores	transformer/Translator.py	/^        def collect_hypothesis_and_scores(inst_dec_beams, n_best):$/;"	f	member:Translator.translate_batch	file:
+convert_instance_to_idx_seq	preprocess.py	/^def convert_instance_to_idx_seq(word_insts, word2idx):$/;"	f
+done	transformer/Beam.py	/^    def done(self):$/;"	m	class:Beam
+eval_epoch	train.py	/^def eval_epoch(model, validation_data, device):$/;"	f
+forward	transformer/Layers.py	/^    def forward(self, dec_input, enc_output, non_pad_mask=None, slf_attn_mask=None, dec_enc_attn/;"	m	class:DecoderLayer
+forward	transformer/Layers.py	/^    def forward(self, enc_input, non_pad_mask=None, slf_attn_mask=None):$/;"	m	class:EncoderLayer
+forward	transformer/Models.py	/^    def forward(self, src_seq, src_pos, return_attns=False):$/;"	m	class:Encoder
+forward	transformer/Models.py	/^    def forward(self, src_seq, src_pos, tgt_seq, tgt_pos):$/;"	m	class:Transformer
+forward	transformer/Models.py	/^    def forward(self, tgt_seq, tgt_pos, src_seq, enc_output, return_attns=False):$/;"	m	class:Decoder
+forward	transformer/Modules.py	/^    def forward(self, q, k, v, mask=None):$/;"	m	class:ScaledDotProductAttention
+forward	transformer/SubLayers.py	/^    def forward(self, q, k, v, mask=None):$/;"	m	class:MultiHeadAttention
+forward	transformer/SubLayers.py	/^    def forward(self, x):$/;"	m	class:PositionwiseFeedForward
+get_attn_key_pad_mask	transformer/Models.py	/^def get_attn_key_pad_mask(seq_k, seq_q):$/;"	f
+get_current_origin	transformer/Beam.py	/^    def get_current_origin(self):$/;"	m	class:Beam
+get_current_state	transformer/Beam.py	/^    def get_current_state(self):$/;"	m	class:Beam
+get_hypothesis	transformer/Beam.py	/^    def get_hypothesis(self, k):$/;"	m	class:Beam
+get_inst_idx_to_tensor_position_map	transformer/Translator.py	/^        def get_inst_idx_to_tensor_position_map(inst_idx_list):$/;"	f	member:Translator.translate_batch	file:
+get_non_pad_mask	transformer/Models.py	/^def get_non_pad_mask(seq):$/;"	f
+get_posi_angle_vec	transformer/Models.py	/^    def get_posi_angle_vec(position):$/;"	f	function:get_sinusoid_encoding_table	file:
+get_sinusoid_encoding_table	transformer/Models.py	/^def get_sinusoid_encoding_table(n_position, d_hid, padding_idx=None):$/;"	f
+get_subsequent_mask	transformer/Models.py	/^def get_subsequent_mask(seq):$/;"	f
+get_tentative_hypothesis	transformer/Beam.py	/^    def get_tentative_hypothesis(self):$/;"	m	class:Beam
+get_the_best_score_and_idx	transformer/Beam.py	/^    def get_the_best_score_and_idx(self):$/;"	m	class:Beam
+load_prefixes	tokenizer.perl	/^sub load_prefixes$/;"	s
+main	preprocess.py	/^def main():$/;"	f
+main	train.py	/^def main():$/;"	f
+main	translate.py	/^def main():$/;"	f
+my_log	multi-bleu.perl	/^sub my_log {$/;"	s
+n_insts	dataset.py	/^    def n_insts(self):$/;"	m	class:TranslationDataset
+nn	transformer/Layers.py	/^import torch.nn as nn$/;"	I
+nn	transformer/Models.py	/^import torch.nn as nn$/;"	I
+nn	transformer/Modules.py	/^import torch.nn as nn$/;"	I
+nn	transformer/SubLayers.py	/^import torch.nn as nn$/;"	I
+nn	transformer/Translator.py	/^import torch.nn as nn$/;"	I
+np	dataset.py	/^import numpy as np$/;"	I
+np	transformer/Beam.py	/^import numpy as np$/;"	I
+np	transformer/Models.py	/^import numpy as np$/;"	I
+np	transformer/Modules.py	/^import numpy as np$/;"	I
+np	transformer/Optim.py	/^import numpy as np$/;"	I
+np	transformer/SubLayers.py	/^import numpy as np$/;"	I
+optim	train.py	/^import torch.optim as optim$/;"	I
+paired_collate_fn	dataset.py	/^def paired_collate_fn(insts):$/;"	f
+predict_word	transformer/Translator.py	/^            def predict_word(dec_seq, dec_pos, src_seq, enc_output, n_active_inst, n_bm):$/;"	f	function:Translator.translate_batch.beam_decode_step	file:
+prepare_beam_dec_pos	transformer/Translator.py	/^            def prepare_beam_dec_pos(len_dec_seq, n_active_inst, n_bm):$/;"	f	function:Translator.translate_batch.beam_decode_step	file:
+prepare_beam_dec_seq	transformer/Translator.py	/^            def prepare_beam_dec_seq(inst_dec_beams, len_dec_seq):$/;"	f	function:Translator.translate_batch.beam_decode_step	file:
+prepare_dataloaders	train.py	/^def prepare_dataloaders(data, opt):$/;"	f
+read_instances_from_file	preprocess.py	/^def read_instances_from_file(inst_file, max_sent_len, keep_case):$/;"	f
+sort_scores	transformer/Beam.py	/^    def sort_scores(self):$/;"	m	class:Beam
+src_idx2word	dataset.py	/^    def src_idx2word(self):$/;"	m	class:TranslationDataset
+src_vocab_size	dataset.py	/^    def src_vocab_size(self):$/;"	m	class:TranslationDataset
+src_word2idx	dataset.py	/^    def src_word2idx(self):$/;"	m	class:TranslationDataset
+step_and_update_lr	transformer/Optim.py	/^    def step_and_update_lr(self):$/;"	m	class:ScheduledOptim
+tgt_idx2word	dataset.py	/^    def tgt_idx2word(self):$/;"	m	class:TranslationDataset
+tgt_vocab_size	dataset.py	/^    def tgt_vocab_size(self):$/;"	m	class:TranslationDataset
+tgt_word2idx	dataset.py	/^    def tgt_word2idx(self):$/;"	m	class:TranslationDataset
+tokenize	tokenizer.perl	/^sub tokenize$/;"	s
+tokenize_batch	tokenizer.perl	/^sub tokenize_batch$/;"	s
+tokenize_penn	tokenizer.perl	/^sub tokenize_penn$/;"	s
+train	train.py	/^def train(model, training_data, validation_data, optimizer, device, opt):$/;"	f
+train_epoch	train.py	/^def train_epoch(model, training_data, optimizer, device, smoothing):$/;"	f
+translate_batch	transformer/Translator.py	/^    def translate_batch(self, src_seq, src_pos):$/;"	m	class:Translator
+zero_grad	transformer/Optim.py	/^    def zero_grad(self):$/;"	m	class:ScheduledOptim

@@ -121,7 +121,7 @@ class Decoder(nn.Module):
             DecoderLayer(d_model, d_inner, n_head, d_k, d_v, dropout=dropout)
             for _ in range(n_layers)])
 
-    def forward(self, tgt_seq, tgt_pos, src_seq, enc_output, return_attns=False):
+    def forward(self, tgt_seq, tgt_pos, src_seq, enc_outputs, return_attns=False):
 
         dec_slf_attn_list, dec_enc_attn_list = [], []
 
@@ -133,17 +133,20 @@ class Decoder(nn.Module):
         slf_attn_mask = (slf_attn_mask_keypad + slf_attn_mask_subseq).gt(0)
 
         # Add global attention mask
+        # Instead of decoder attending to its own encoder it should to all encoders
 
-        dec_enc_attn_mask = get_attn_key_pad_mask(seq_k=src_seq, seq_q=tgt_seq)
+        # use all src seqs
+        # dec_enc_attn_mask = get_attn_key_pad_mask(seq_k=src_seq, seq_q=tgt_seq)
+        dec_enc_attn_masks = [get_attn_key_pad_mask(seq_k=src_seq[i], seq_q=tgt_seq) for i in range(enc_outputs.size()[0])]
 
         # -- Forward
         dec_output = self.tgt_word_emb(tgt_seq) + self.position_enc(tgt_pos)
 
-        for dec_layer in self.layer_stack:
+        for i, dec_layer in enumerate(self.layer_stack):
             dec_output, dec_slf_attn, dec_enc_attn = dec_layer(
-                dec_output, enc_output,
+                dec_output, enc_outputs,
                 non_pad_mask=non_pad_mask,
-                slf_attn_mask=slf_attn_mask,
+                slf_attn_mask=slf_attn_masks,
                 dec_enc_attn_mask=dec_enc_attn_mask)
 
             if return_attns:
