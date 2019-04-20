@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
-from transformer.Models import Transformer
+from transformer.Models import Encoder, Decoder
 
 class MultiTransformer(nn.Module):
     """

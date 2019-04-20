@@ -14,6 +14,7 @@ import torch.utils.data
 import transformer.Constants as Constants
 from dataset import TranslationDataset, paired_collate_fn
 # from transformer.Models import Transformer
+from piano_dataset import MultiTrackPianoRollDataset, transform, PAD_TOKEN, START_TOKEN, END_TOKEN, MAX_LEN, VOCAB_SIZE, TRUNCATED
 from transformer.MultiTransformer import MultiTransformer
 from transformer.Optim import ScheduledOptim
 
@@ -24,7 +25,7 @@ def cal_performance(pred, gold, smoothing=False):
 
     pred = pred.max(1)[1]
     gold = gold.contiguous().view(-1)
-    non_pad_mask = gold.ne(Constants.PAD)
+    non_pad_mask = gold.ne(PAD_TOKEN)
     n_correct = pred.eq(gold)
     n_correct = n_correct.masked_select(non_pad_mask).sum().item()
 
@@ -44,11 +45,11 @@ def cal_loss(pred, gold, smoothing):
         one_hot = one_hot * (1 - eps) + (1 - one_hot) * eps / (n_class - 1)
         log_prb = F.log_softmax(pred, dim=1)
 
-        non_pad_mask = gold.ne(Constants.PAD)
+        non_pad_mask = gold.ne(PAD_TOKEN)
         loss = -(one_hot * log_prb).sum(dim=1)
         loss = loss.masked_select(non_pad_mask).sum()  # average later
     else:
-        loss = F.cross_entropy(pred, gold, ignore_index=Constants.PAD, reduction='sum')
+        loss = F.cross_entropy(pred, gold, ignore_index=PAD_TOKEN, reduction='sum')
 
     return loss
 
@@ -61,14 +62,24 @@ def train_epoch(model, training_data, optimizer, device, smoothing):
     total_loss = 0
     n_word_total = 0
     n_word_correct = 0
+    
+    print("training data")
+    print(training_data)
+    print(training_data[0])
 
     for batch in tqdm(
             training_data, mininterval=2,
             desc='  - (Training)   ', leave=False):
+        print("BATCH")
+        print(batch)
+        print(batch.size())
 
         # prepare data
         # batch should be n_modules x batch_size x (sample size)
         src_seq, src_pos, tgt_seq, tgt_pos = map(lambda x: x.to(device), batch)
+        print("src seq")
+        print(src_seq)
+        print(src_seq.size())
         gold = tgt_seq[:, :, 1:]
 
         # forward
@@ -85,7 +96,7 @@ def train_epoch(model, training_data, optimizer, device, smoothing):
         # note keeping
         total_loss += loss.item()
 
-        non_pad_mask = gold.ne(Constants.PAD)
+        non_pad_mask = gold.ne(PAD_TOKEN)
         n_word = non_pad_mask.sum().item()
         n_word_total += n_word
         n_word_correct += n_correct
@@ -119,7 +130,7 @@ def eval_epoch(model, validation_data, device):
             # note keeping
             total_loss += loss.item()
 
-            non_pad_mask = gold.ne(Constants.PAD)
+            non_pad_mask = gold.ne(PAD_TOKEN)
             n_word = non_pad_mask.sum().item()
             n_word_total += n_word
             n_word_correct += n_correct
@@ -195,10 +206,10 @@ def main():
     ''' Main function '''
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-data', required=True)
+    #parser.add_argument('-data', required=True)
 
-    parser.add_argument('-epoch', type=int, default=10)
-    parser.add_argument('-batch_size', type=int, default=64)
+    parser.add_argument('-epoch', type=int, default=5)
+    parser.add_argument('-batch_size', type=int, default=1)
 
     #parser.add_argument('-d_word_vec', type=int, default=512)
     parser.add_argument('-d_model', type=int, default=512)
@@ -227,18 +238,19 @@ def main():
     opt.d_word_vec = opt.d_model
 
     #========= Loading Dataset =========#
-    data = torch.load(opt.data)
-    opt.max_token_seq_len = data['settings'].max_token_seq_len
+    #data = torch.load(opt.data)
+    #opt.max_token_seq_len = data['settings'].max_token_seq_len
+    opt.max_token_seq_len = TRUNCATED + 2
 
-    training_data, validation_data = prepare_dataloaders(data, opt)
+    training_data, validation_data = prepare_dataloaders(opt)
 
     opt.src_vocab_size = training_data.dataset.src_vocab_size
     opt.tgt_vocab_size = training_data.dataset.tgt_vocab_size
 
     #========= Preparing Model =========#
-    if opt.embs_share_weight:
-        assert training_data.dataset.src_word2idx == training_data.dataset.tgt_word2idx, \
-            'The src/tgt word2idx table are different but asked to share word embedding.'
+    #if opt.embs_share_weight:
+    #    assert training_data.dataset.src_word2idx == training_data.dataset.tgt_word2idx, \
+    #        'The src/tgt word2idx table are different but asked to share word embedding.'
 
     print(opt)
 
@@ -284,29 +296,16 @@ def main():
     train(transformer, training_data, validation_data, optimizer, device ,opt)
 
 
-def prepare_dataloaders(data, opt):
+def prepare_dataloaders(opt):
     # ========= Preparing DataLoader =========#
     train_loader = torch.utils.data.DataLoader(
-        TranslationDataset(
-            src_word2idx=data['dict']['src'],
-            tgt_word2idx=data['dict']['tgt'],
-            src_insts=data['train']['src'],
-            tgt_insts=data['train']['tgt']),
+        MultiTrackPianoRollDataset(transform=transform),
         num_workers=2,
         batch_size=opt.batch_size,
         collate_fn=paired_collate_fn,
         shuffle=True)
 
-    valid_loader = torch.utils.data.DataLoader(
-        TranslationDataset(
-            src_word2idx=data['dict']['src'],
-            tgt_word2idx=data['dict']['tgt'],
-            src_insts=data['valid']['src'],
-            tgt_insts=data['valid']['tgt']),
-        num_workers=2,
-        batch_size=opt.batch_size,
-        collate_fn=paired_collate_fn)
-    return train_loader, valid_loader
+    return train_loader, train_loader
 
 
 if __name__ == '__main__':
